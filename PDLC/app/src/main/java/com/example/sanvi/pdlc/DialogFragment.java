@@ -1,12 +1,16 @@
 package com.example.sanvi.pdlc;
 
 import android.Manifest;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +38,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +51,9 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
-public class DialogFragment extends Fragment implements AIListener{
+import static android.content.Context.SENSOR_SERVICE;
+
+public class DialogFragment extends Fragment implements AIListener {
 
     @Nullable
 
@@ -55,6 +62,7 @@ public class DialogFragment extends Fragment implements AIListener{
     private AIService aiService;
     private Button listenButton;
     private TextView resultTextView;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +79,8 @@ public class DialogFragment extends Fragment implements AIListener{
             }
         });
 
+
+
         FloatingActionButton btn = view.findViewById(R.id.micro);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +92,8 @@ public class DialogFragment extends Fragment implements AIListener{
         return view;
 
     }
+
+
 
 
     @Override
@@ -115,4 +127,26 @@ public class DialogFragment extends Fragment implements AIListener{
     public void onListeningFinished() {
 
     }
+    @Override //para que pare
+    public void onStop() {
+        super.onStop();
+
+        if(mTextToSpeech != null){
+            mTextToSpeech.shutdown();
+        }
+    }
+
+    public void run(){
+        Toast toastRun =
+                Toast.makeText( (MainActivity)getActivity(),"Bot vuelve a escuchar", Toast.LENGTH_SHORT);
+        toastRun.show();
+        aiService.startListening();
+    }
+
+
+    /**Calendar calendar = Calendar.getInstance(Time.getCurrentTimeZone());
+     Para obtener la fecha actual .DAY_OF_WEEK.
+
+     uso :
+     Calendar.getInstance().get(Calendar.DAY_OF_WEEK)* */
 }
