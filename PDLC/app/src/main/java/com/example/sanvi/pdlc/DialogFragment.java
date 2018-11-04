@@ -62,6 +62,7 @@ public class DialogFragment extends Fragment implements AIListener {
     private AIService aiService;
     private Button listenButton;
     private TextView resultTextView;
+    private LightSensor Lightsensor;
 
 
     @Override
@@ -81,7 +82,8 @@ public class DialogFragment extends Fragment implements AIListener {
 
             }
         });
-
+        //light sensor
+        Lightsensor.onCreate(this);
 
 
         FloatingActionButton btn = view.findViewById(R.id.micro);

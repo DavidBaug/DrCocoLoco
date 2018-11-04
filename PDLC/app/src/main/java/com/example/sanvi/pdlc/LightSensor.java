@@ -13,13 +13,14 @@ public class LightSensor extends AppCompatActivity implements SensorEventListene
     private boolean parado;
     private DialogFragment bot;
 
-    public void onCreate(){
+    public void onCreate(DialogFragment aux){
 
         //light sensor
         //------ Si no es activity main dice que no
         parado = false;
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        bot = aux;
     }
 
     @Override
