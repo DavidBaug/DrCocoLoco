@@ -66,6 +66,9 @@ public class DialogFragment extends Fragment implements AIListener {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 0);
+
         View view =  inflater.inflate(R.layout.fragment_dialog, container, false);
         final AIConfiguration config = new AIConfiguration("ff0840a80d47483a9ec65d0dbd429051", AIConfiguration.SupportedLanguages.Spanish,AIConfiguration.RecognitionEngine.System);
 
@@ -82,6 +85,7 @@ public class DialogFragment extends Fragment implements AIListener {
 
 
         FloatingActionButton btn = view.findViewById(R.id.micro);
+        resultTextView = view.findViewById(R.id.textView2);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,8 @@ public class DialogFragment extends Fragment implements AIListener {
     @Override
     public void onResult(AIResponse response) {
         Result result = response.getResult();
+
+        resultTextView.setText(result.getFulfillment().getSpeech());
 
         mTextToSpeech.speak(result.getFulfillment().getSpeech(), TextToSpeech.QUEUE_FLUSH,null,null);
     }
