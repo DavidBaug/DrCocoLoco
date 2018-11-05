@@ -1,12 +1,16 @@
 package com.example.sanvi.pdlc;
 
 import android.Manifest;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +38,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +51,9 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
-public class DialogFragment extends Fragment implements AIListener{
+import static android.content.Context.SENSOR_SERVICE;
+
+public class DialogFragment extends Fragment implements AIListener {
 
     @Nullable
 
@@ -55,9 +62,14 @@ public class DialogFragment extends Fragment implements AIListener{
     private AIService aiService;
     private Button listenButton;
     private TextView resultTextView;
+    private LightSensor Lightsensor;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 0);
+
         View view =  inflater.inflate(R.layout.fragment_dialog, container, false);
         final AIConfiguration config = new AIConfiguration("ff0840a80d47483a9ec65d0dbd429051", AIConfiguration.SupportedLanguages.Spanish,AIConfiguration.RecognitionEngine.System);
 
@@ -70,8 +82,12 @@ public class DialogFragment extends Fragment implements AIListener{
 
             }
         });
+        //light sensor
+        Lightsensor.onCreate(this);
+
 
         FloatingActionButton btn = view.findViewById(R.id.micro);
+        resultTextView = view.findViewById(R.id.textView2);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,9 +100,13 @@ public class DialogFragment extends Fragment implements AIListener{
     }
 
 
+
+
     @Override
     public void onResult(AIResponse response) {
         Result result = response.getResult();
+
+        resultTextView.setText(result.getFulfillment().getSpeech());
 
         mTextToSpeech.speak(result.getFulfillment().getSpeech(), TextToSpeech.QUEUE_FLUSH,null,null);
     }
@@ -115,4 +135,26 @@ public class DialogFragment extends Fragment implements AIListener{
     public void onListeningFinished() {
 
     }
+    @Override //para que pare
+    public void onStop() {
+        super.onStop();
+
+        if(mTextToSpeech != null){
+            mTextToSpeech.shutdown();
+        }
+    }
+
+    public void run(){
+        Toast toastRun =
+                Toast.makeText( (MainActivity)getActivity(),"Bot vuelve a escuchar", Toast.LENGTH_SHORT);
+        toastRun.show();
+        aiService.startListening();
+    }
+
+
+    /**Calendar calendar = Calendar.getInstance(Time.getCurrentTimeZone());
+     Para obtener la fecha actual .DAY_OF_WEEK.
+
+     uso :
+     Calendar.getInstance().get(Calendar.DAY_OF_WEEK)* */
 }
