@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -104,6 +105,14 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(getContext());
+
+        if (!nfc.isEnabled()) {
+            Toast.makeText(getContext(), "Si no activas el NFC poco te voy a contar...", Toast.LENGTH_LONG).show();
+        }
+
+
         // Inflate the layout for this fragment
         gestorInterfaz = inflater.inflate(R.layout.fragment_nfc, container, false);
 
@@ -158,6 +167,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        Toast.makeText(getContext(), "Aaaaaaaaaaaaaaaaaaahaa", Toast.LENGTH_SHORT).show();
+
 
                         // Creamos un texto vacio
                         TextView texto = (TextView) gestorInterfaz.findViewById(R.id.textView3);
