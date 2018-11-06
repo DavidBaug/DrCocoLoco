@@ -1,24 +1,19 @@
 package com.example.sanvi.pdlc;
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.nfc.NfcAdapter;
-import android.util.Log;
-import android.nfc.Tag;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.MediaPlayer;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 
@@ -47,8 +42,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     // creamos el objeto para establecer la imagen que queremos que se ponga en función de la
     // etiqueta nfc que el usuario escanee
     public View gestorInterfaz;
-    boolean imagenPaellaActiva;
-    boolean imagenEspeciasActiva;
 
 
     @Override
@@ -64,9 +57,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
         // Activamos el modo lectura del dispositivo que ejecuta este programa
         enableReaderMode();
 
-        // inicialmente las imágenes que muestran la etiquetas NFC no están visibles
-        imagenEspeciasActiva = false;
-        imagenPaellaActiva = false;
     }
 
 
@@ -87,17 +77,12 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
 
                 // Creamos los objetos que harán referencia a los fragmentos de la interfaz que
                 // deseamos cambiar en función de la etiqueta NFC que detecte nuestro dispositivo
-                ImageView imagen = (ImageView) gestorInterfaz.findViewById(R.id.imageView3);
-                TextView texto = (TextView) gestorInterfaz.findViewById(R.id.textView5);
-                TextView textoEspecias = (TextView) gestorInterfaz.findViewById(R.id.textPaella);
-                TextView textoPaella = (TextView) gestorInterfaz.findViewById(R.id.textEspecias);
+                TextView texto = (TextView) gestorInterfaz.findViewById(R.id.textView3);
+
 
                 // Una vez el usuario escanea una etiqueta NFC escondemos cualquier texto visible
                 // en pantalla y hacemos aparecer la imagen asociada a la vista
                 texto.setVisibility(View.INVISIBLE);
-                textoPaella.setVisibility(View.INVISIBLE);
-                textoEspecias.setVisibility(View.INVISIBLE);
-                imagen.setVisibility(View.VISIBLE);
 
                 // En función de la etiqueta que el usuario haya escaneado redirigimos la fuente de
                 // la imagen existente en la interfaz hacia un lado o hacia otro, de esta manera
@@ -106,15 +91,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
                 // más tarde a la hora de gestionar el acelerómetro.
                 if (indiceEtiqueta.charAt(0) == '1') {
                     Log.i(TAG, "IDENTIFICADA LA PRIMERA ETIQUETA");
-                    imagen.setImageResource(R.drawable.paella);
-                    imagenPaellaActiva = true;
-                    imagenEspeciasActiva = false;
 
                 } else if (indiceEtiqueta.charAt(0) == '2') {
                     Log.i(TAG, "IDENTIFICADA LA SEGUNDA ETIQUETA");
-                    imagen.setImageResource(R.drawable.especias);
-                    imagenEspeciasActiva = true;
-                    imagenPaellaActiva = false;
                 }
             }
         });
@@ -173,43 +152,24 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
             if (gForce >= SHAKE_THRESHOLD) {
 
                 Log.i(TAG, "DETECTADO UN SHAKE");
-                // Ejecutamos el cambio entre imagenes y texto con el gesto de shake en la hebra principal
-                // ya que es la única que puede encargarse de modificar la interfaz
+
+                //Borrar pantalla
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
-                        // Creamos los objetos asociados a los distintos componentes de la interfaz
-                        // para modificarlos con la interacción del acelerometro realizada por el usuario
-                        ImageView imagen = (ImageView) gestorInterfaz.findViewById(R.id.imageView3);
-                        TextView textoPaella = (TextView) gestorInterfaz.findViewById(R.id.textPaella);
-                        TextView textoEspecias = (TextView) gestorInterfaz.findViewById(R.id.textEspecias);
+                        // Creamos un texto vacio
+                        TextView texto = (TextView) gestorInterfaz.findViewById(R.id.textView3);
 
-                        // Si hay alguna imagen activa la cambiamos por su texto correspondiente
-                        // (hay un texto distinto para cada imagen) y modificamos los valores
-                        // booleanos de <<imagenXActiva>>
-                        if(imagenPaellaActiva || imagenEspeciasActiva) {
-                            imagen.setVisibility(View.INVISIBLE);
-                            if (imagenPaellaActiva) {
-                                textoPaella.setVisibility(View.VISIBLE);
-                                imagenPaellaActiva = false;
-                            } else if (imagenEspeciasActiva) {
-                                textoEspecias.setVisibility(View.VISIBLE);
-                                imagenEspeciasActiva = false;
-                            }
+
+
+                        if(texto.getText()!= ""){
+
+                            texto.setText("");
+
                         }
-                        // En caso contrario, si lo que hay activo es texto, comprobamos cual de
-                        // ambos es y lo cambiamos por la imagen correspondiente
-                        else if(textoPaella.getVisibility() == View.VISIBLE) {
-                            textoPaella.setVisibility(View.INVISIBLE);
-                            imagen.setVisibility(View.VISIBLE);
-                            imagenPaellaActiva = true;
-                        }
-                        else if(textoEspecias.getVisibility() == View.VISIBLE) {
-                            textoEspecias.setVisibility(View.INVISIBLE);
-                            imagen.setVisibility(View.VISIBLE);
-                            imagenEspeciasActiva = true;
-                        }
+
                     }
                 });
             }
