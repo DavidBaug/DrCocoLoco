@@ -35,7 +35,7 @@ public class LightSensor extends AppCompatActivity implements SensorEventListene
             else{
                 if(parado){
                     //esta parado hacemos que ande,porque tiene un nivel mayor
-                    bot.run();
+                    bot.onResume();
                 }
             }
 
