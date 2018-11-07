@@ -32,6 +32,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     // información con formato NDEF (Android Beam por ejemplo)
     public static int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
 
+
+
     // Declaramos el gestor de etiquetas
     private MifareUltralightTagTester tagManager;
 
@@ -51,7 +53,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Obtenemos los sensores que usaremos
-        mSensorManager = (SensorManager) this.getContext().getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         mSensorAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         // Creamos el gestor de etiquetas NFC
@@ -147,10 +149,14 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     private void enableReaderMode() {
         Log.i(TAG, "Enabling reader mode");
 
+
         Activity activity = getActivity();
 
         // Comprobamos la validez del adaptador NFC del dispositivo
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(activity);
+
+        Toast.makeText(getContext(), "Leyendo", Toast.LENGTH_SHORT).show();
+
 
         // En caso de ser válido
         if (nfc != null) {

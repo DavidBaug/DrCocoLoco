@@ -10,5 +10,10 @@
         android:icon="@drawable/ic_nfc_black_24dp"
         android:title="" />
 
+    <item
+        android:id="@+id/navigation_qr"
+        android:icon="@drawable/ic_camera_black_24dp"
+        android:title="" />
+
 
 </menu>

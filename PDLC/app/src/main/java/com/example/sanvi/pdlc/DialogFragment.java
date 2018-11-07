@@ -115,8 +115,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
                         primer_valor = true;
                         LIMIT_LIGHT =  event.values[0] / 2;
                         Log.i("info", String.valueOf(LIMIT_LIGHT));
-                        Toast info = Toast.makeText(getContext(),String.valueOf(LIMIT_LIGHT), Toast.LENGTH_SHORT);
-                        info.show();
+//                        Toast info = Toast.makeText(getContext(),String.valueOf(LIMIT_LIGHT), Toast.LENGTH_SHORT);
+//                        info.show();
                     }
                     else{
                         if(event.values[0] <= LIMIT_LIGHT && !parado){
