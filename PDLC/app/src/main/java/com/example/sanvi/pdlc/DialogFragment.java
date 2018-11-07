@@ -40,6 +40,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,7 +53,6 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
-public class DialogFragment extends Fragment implements AIListener{
 
 public class DialogFragment extends Fragment implements AIListener,SensorEventListener {
 
@@ -67,7 +67,7 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
     private boolean parado,primer_valor;
-    private double LIMIT_LIGHT,NORMAL_LIGHT;
+    private double LIMIT_LIGHT;
 
     public DialogFragment() {
     }
