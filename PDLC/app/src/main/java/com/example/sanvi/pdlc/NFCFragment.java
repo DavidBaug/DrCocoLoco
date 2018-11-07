@@ -92,12 +92,31 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
                 // conseguimos que haya una sola imagen en la interfaz en lugar de dos con
                 // dos fuentes distintas. Además cambiamos los booleanos necesarios para utilizarlos
                 // más tarde a la hora de gestionar el acelerómetro.
+
+                texto = (TextView) gestorInterfaz.findViewById(R.id.textView3);
+
+
                 if (indiceEtiqueta.charAt(0) == '1') {
-                    Log.i(TAG, "IDENTIFICADA LA PRIMERA ETIQUETA");
+                    Log.i(TAG, "Leida etiqueta 1");
+                    texto.setText("Sala Eureka: asdsd");
 
                 } else if (indiceEtiqueta.charAt(0) == '2') {
-                    Log.i(TAG, "IDENTIFICADA LA SEGUNDA ETIQUETA");
+                    Log.i(TAG, "Leida etiqueta 2");
+                    texto.setText("Sala Eureka: asdsd");
+
+                } else if (indiceEtiqueta.charAt(0) == '3') {
+                    Log.i(TAG, "Leida etiqueta 3");
+                    texto.setText("Sala Eureka: asdsd");
+
+                } else if (indiceEtiqueta.charAt(0) == '4') {
+                    Log.i(TAG, "Leida etiqueta 4");
+                    texto.setText("Sala Eureka: asdsd");
+
+                } else if (indiceEtiqueta.charAt(0) == '5') {
+                    Log.i(TAG, "Leida etiqueta 5");
+                    texto.setText("Sala Eureka: asdsd");
                 }
+
             }
         });
 
