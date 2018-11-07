@@ -40,11 +40,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_dashboard:
                 fragment = new DialogFragment();
                 break;
-            case R.id.navigation_nfc:
-                fragment = new NFCFragment();
-                break;
             case R.id.navigation_qr:
-                fragment = new QRFragment();
+                fragment = new QR_Fragment();
                 break;
         }
 

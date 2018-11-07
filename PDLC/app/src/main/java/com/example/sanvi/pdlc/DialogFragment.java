@@ -53,7 +53,6 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
-
 public class DialogFragment extends Fragment implements AIListener,SensorEventListener {
 
     @Nullable
@@ -67,7 +66,7 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
     private boolean parado,primer_valor;
-    private double LIMIT_LIGHT;
+    private double LIMIT_LIGHT,NORMAL_LIGHT;
 
     public DialogFragment() {
     }
@@ -77,6 +76,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 0);
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.NFC}, 0);
 
 
         View view =  inflater.inflate(R.layout.fragment_dialog, container, false);
@@ -115,8 +116,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
                         primer_valor = true;
                         LIMIT_LIGHT =  event.values[0] / 2;
                         Log.i("info", String.valueOf(LIMIT_LIGHT));
-//                        Toast info = Toast.makeText(getContext(),String.valueOf(LIMIT_LIGHT), Toast.LENGTH_SHORT);
-//                        info.show();
+                        Toast info = Toast.makeText(getContext(),String.valueOf(LIMIT_LIGHT), Toast.LENGTH_SHORT);
+                        info.show();
                     }
                     else{
                         if(event.values[0] <= LIMIT_LIGHT && !parado){
@@ -260,7 +261,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
 
     /**Calendar calendar = Calendar.getInstance(Time.getCurrentTimeZone());
      Para obtener la fecha actual .DAY_OF_WEEK.
-
      uso :
-     Calendar.getInstance().get(Calendar.DAY_OF_WEEK)* */
+     Calendar.getInstance().get(Calendar.DAY_OF_WEEK)**/
+
 }
+
