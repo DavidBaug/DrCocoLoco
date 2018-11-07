@@ -1,5 +1,6 @@
 package com.example.sanvi.pdlc;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,6 +10,7 @@ import android.hardware.SensorManager;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,6 +107,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.NFC}, 0);
+
 
         NfcAdapter nfc = NfcAdapter.getDefaultAdapter(getContext());
 

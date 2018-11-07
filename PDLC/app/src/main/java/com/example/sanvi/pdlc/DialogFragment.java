@@ -78,8 +78,6 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 0);
 
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.NFC}, 0);
-
 
         View view =  inflater.inflate(R.layout.fragment_dialog, container, false);
         final AIConfiguration config = new AIConfiguration("ff0840a80d47483a9ec65d0dbd429051", AIConfiguration.SupportedLanguages.Spanish,AIConfiguration.RecognitionEngine.System);
