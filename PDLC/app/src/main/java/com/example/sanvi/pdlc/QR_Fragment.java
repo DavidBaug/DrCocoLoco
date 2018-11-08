@@ -1,22 +1,29 @@
 package com.example.sanvi.pdlc;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHandler {
+
+    TextView texto;
+    ImageView imagen;
+
+    TextView nombre;
 
     private ZXingScannerView mScannerView;
 
@@ -48,7 +55,7 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
 
     @Override
     public void handleResult(com.google.zxing.Result rawResult) {
-        Toast.makeText(getActivity(), rawResult.getText(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), rawResult.getText(), Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -56,6 +63,14 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
                 mScannerView.resumeCameraPreview(QR_Fragment.this);
             }
         }, 2000);
+
+
+        Intent intent = new Intent(getActivity(), Main2Activity.class);
+
+        intent.putExtra("raw", rawResult.getText());
+
+        startActivity(intent);
+
     }
 }
 
