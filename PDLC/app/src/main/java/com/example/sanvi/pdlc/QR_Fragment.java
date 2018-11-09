@@ -2,6 +2,7 @@ package com.example.sanvi.pdlc;
 
 import android.Manifest;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -9,23 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHandler {
 
-    TextView texto;
-    ImageView imagen;
-
-    TextView nombre;
-
     private ZXingScannerView mScannerView;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,15 +30,30 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
 
         mScannerView = new ZXingScannerView(getActivity());
 
+        Toast.makeText(getContext(),"Toca dos veces para activar el flash", Toast.LENGTH_SHORT).show();
+
+        mScannerView.setOnTouchListener(new OnDoubleTapListener(getContext()) {
+            @Override
+            public void onDoubleTap(MotionEvent e) {
+                //Enciende flash
+                mScannerView.toggleFlash();
+
+            }
+        });
 
         return mScannerView;
     }
+
+
+
 
     @Override
     public void onResume() {
         super.onResume();
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
+
+
     }
 
 
@@ -64,7 +74,7 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
             }
         }, 2000);
 
-
+        //Actividad que muestra la info leida
         Intent intent = new Intent(getActivity(), QRinfo.class);
 
         intent.putExtra("raw", rawResult.getText());
