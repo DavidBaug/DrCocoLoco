@@ -63,10 +63,10 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
     private Button listenButton;
     private TextView resultTextView;
     private SensorManager sensorManager;
-    private Sensor lightSensor;
-    private SensorEventListener lightSensorListener;
-    private boolean parado,primer_valor;
-    private double LIMIT_LIGHT,NORMAL_LIGHT;
+    private Sensor proximitySensor;
+    private SensorEventListener proximitySensorListener;
+    private boolean parado;
+    private double LIMIT;
 
     public DialogFragment() {
     }
@@ -103,7 +103,7 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
             }
         });
         //light sensor
-        parado = false;
+        /*parado = false;
         primer_valor = false;
         sensorManager = (SensorManager)getActivity().getSystemService(Service.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -150,7 +150,52 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
         else{
             Toast info_warn = Toast.makeText(getContext(),"Función descativar por luz: No disponible", Toast.LENGTH_SHORT);
             info_warn.show();
+        }*/
+
+        sensorManager = (SensorManager)getActivity().getSystemService(Service.SENSOR_SERVICE);
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        LIMIT = proximitySensor.getMaximumRange()/3;
+        parado = false;
+
+        proximitySensorListener = new SensorEventListener(){
+            @Override
+            //interpolar
+            public void onSensorChanged(SensorEvent event) {
+                if(event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                    if (event.values[0] <= LIMIT && !parado) {
+                        //parar bot
+                        parado = true;
+                        //llamamos al bot para que pare
+                        stop();
+                    }
+                    else {
+                        if (parado && event.values[0] > LIMIT) {
+                            //esta parado hacemos que ande,porque tiene un nivel mayor
+                            run();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+        if(proximitySensor != null){
+            Toast info = Toast.makeText(getContext(),"Función desactivar por luz: Disponible", Toast.LENGTH_SHORT);
+            info.show();
+            Toast info2 = Toast.makeText(getContext(),String.valueOf(LIMIT), Toast.LENGTH_SHORT);
+            info2.show();
+
         }
+        else{
+            Toast info_warn = Toast.makeText(getContext(),"Función descativar por luz: No disponible", Toast.LENGTH_SHORT);
+            info_warn.show();
+        }
+
+
         return view;
 
     }
@@ -234,23 +279,23 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
     @Override
     public void onStop() {
         //quitamos el sensor de luz al parar la app
-        sensorManager.unregisterListener(lightSensorListener,lightSensor);
+        sensorManager.unregisterListener(proximitySensorListener,proximitySensor);
         parado = true;
         super.onStop();
     }
 
     @Override
     public void onPause(){
-        if(sensorManager != null && lightSensorListener != null && lightSensor != null){
-            sensorManager.unregisterListener(lightSensorListener,lightSensor);
+        if(sensorManager != null && proximitySensorListener != null && proximitySensor != null){
+            sensorManager.unregisterListener(proximitySensorListener,proximitySensor);
         }
         super.onPause();
     }
 
     @Override
     public void onResume(){
-        if(sensorManager != null && lightSensorListener != null && lightSensor != null){
-            sensorManager.registerListener(lightSensorListener,lightSensor,sensorManager.SENSOR_DELAY_NORMAL);
+        if(sensorManager != null && proximitySensorListener != null && proximitySensor != null){
+            sensorManager.registerListener(proximitySensorListener,proximitySensor,sensorManager.SENSOR_DELAY_NORMAL);
         }
         super.onResume();
     }
