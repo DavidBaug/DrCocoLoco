@@ -2,6 +2,7 @@ package com.example.sanvi.pdlc;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,11 +34,13 @@ public class QRinfo extends AppCompatActivity {
         raw=extra.getString("raw");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr);
+        setContentView(R.layout.activity_qrinfo);
 
         nombre= findViewById(R.id.textViewNombre);
         imagen=findViewById(R.id.imageView);
         texto=findViewById(R.id.textViewSalas);
+
+        texto.setMovementMethod(new ScrollingMovementMethod());
 
         String[] parts = raw.split("###");
 
