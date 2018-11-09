@@ -28,7 +28,8 @@
             android:label="@string/title_activity_info_sala" />
         <activity
             android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"></activity>
+            android:label="@string/title_activity_main2" />
+        <activity android:name=".QRinfo"></activity>
     </application>
 
 </manifest>

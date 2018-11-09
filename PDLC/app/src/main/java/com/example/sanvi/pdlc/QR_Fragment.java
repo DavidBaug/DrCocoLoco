@@ -65,7 +65,7 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
         }, 2000);
 
 
-        Intent intent = new Intent(getActivity(), Main2Activity.class);
+        Intent intent = new Intent(getActivity(), QRinfo.class);
 
         intent.putExtra("raw", rawResult.getText());
 
