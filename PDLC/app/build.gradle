@@ -38,5 +38,10 @@ dependencies {
     implementation('me.dm7.barcodescanner:zxing:1.9.8') {
         exclude module: 'support-v4'
     }
+    implementation('me.dm7.barcodescanner:zxing:1.9.8') {
+        exclude module: 'support-v4'
+    }
+    implementation 'org.jsoup:jsoup:1.10.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 }

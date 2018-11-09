@@ -108,11 +108,8 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
 
         texto.setMovementMethod(new ScrollingMovementMethod());
 
-        String[] parts = raw.split("###");
 
-        nombre.setText(parts[0]);
-
-        Picasso.get().load(parts[1]).into(imagen);
-        texto.setText(parts[2]);
+        LeerDatos leer =  new LeerDatos(nombre, texto, imagen);
+        leer.execute(raw);
     }
 }
