@@ -31,18 +31,18 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="76dp"
-        android:layout_height="98dp"
+        android:layout_width="89dp"
+        android:layout_height="143dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="62dp"
-        android:layout_marginTop="408dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="61dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="377dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="47dp"
         android:layout_toStartOf="@+id/micro"
         android:contentDescription="Dr.CocoLoco, un coco con bata muy inteligente"
-        app:srcCompat="@mipmap/drcoco_hdpi" />
+        app:srcCompat="@mipmap/drcoco" />
 
 
 </RelativeLayout>
