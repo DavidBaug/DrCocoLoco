@@ -99,17 +99,22 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
         Bundle extra = getIntent().getExtras();
         raw=extra.getString("raw");
 
+        String[] parts = raw.split("###");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrinfo);
 
-        nombre= findViewById(R.id.textViewNombre);
-        imagen=findViewById(R.id.imageView);
-        texto=findViewById(R.id.textViewSalas);
 
-        texto.setMovementMethod(new ScrollingMovementMethod());
+        texto = findViewById(R.id.textViewSalas);
+        nombre = findViewById(R.id.textViewNombre);
+        imagen = findViewById(R.id.imageView);
+
+        nombre.setText(parts[0]);
+        Picasso.get().load(parts[1]).into(imagen);
+        texto.setText(parts[2]);
 
 
-        LeerDatos leer =  new LeerDatos(nombre, texto, imagen);
-        leer.execute(raw);
+
+
     }
 }
