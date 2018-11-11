@@ -52,7 +52,7 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
-
+//este es el fragment del bot
 public class DialogFragment extends Fragment implements AIListener,SensorEventListener {
 
     @Nullable
@@ -135,12 +135,12 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
         };
 
         if(proximitySensor != null){
-            Toast info = Toast.makeText(getContext(),"Función desactivar por luz: Disponible", Toast.LENGTH_SHORT);
+            Toast info = Toast.makeText(getContext(),"Función desactivar: Disponible", Toast.LENGTH_SHORT);
             info.show();
 
         }
         else{
-            Toast info_warn = Toast.makeText(getContext(),"Función descativar por luz: No disponible", Toast.LENGTH_SHORT);
+            Toast info_warn = Toast.makeText(getContext(),"Función descativar: No disponible", Toast.LENGTH_SHORT);
             info_warn.show();
         }
 
