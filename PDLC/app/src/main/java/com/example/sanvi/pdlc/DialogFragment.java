@@ -83,6 +83,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
         View view =  inflater.inflate(R.layout.fragment_dialog, container, false);
         final AIConfiguration config = new AIConfiguration("ff0840a80d47483a9ec65d0dbd429051", AIConfiguration.SupportedLanguages.Spanish,AIConfiguration.RecognitionEngine.System);
 
+
+        // Instancia para leer desde el dispositivo
         aiService = AIService.getService(view.getContext(),config);
         aiService.setListener(this);
 
@@ -93,6 +95,8 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
             }
         });
 
+
+        // Button micro
         FloatingActionButton btn = view.findViewById(R.id.micro);
         resultTextView = view.findViewById(R.id.textView2);
 
@@ -103,11 +107,13 @@ public class DialogFragment extends Fragment implements AIListener,SensorEventLi
             }
         });
 
+        // Sensor de proximidad para callar al bot
         sensorManager = (SensorManager)getActivity().getSystemService(Service.SENSOR_SERVICE);
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         LIMIT = proximitySensor.getMaximumRange()/3;
         parado = false;
 
+        //Método del sensor
         proximitySensorListener = new SensorEventListener(){
             @Override
             //interpolar

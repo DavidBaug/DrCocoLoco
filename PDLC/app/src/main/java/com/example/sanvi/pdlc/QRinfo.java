@@ -39,8 +39,7 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
     private void detectShake(SensorEvent event) {
 
         // Calculamos el tiempo transcurrido entre la última vez que se agitó el
-        // dispositivo y la actual, en caso de que sea menor que el tiempo
-        // mínimo definido entre agitaciones (SHAKE_WAIT_TIME_MS), no se hace nada.
+        // dispositivo y la actual, si es muy pequeño, shake = true
         long now = System.currentTimeMillis();
         if ((now - mShakeTime) > SHAKE_WAIT_TIME_MS) {
             mShakeTime = now;
@@ -50,13 +49,9 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
             float gY = event.values[1] / SensorManager.GRAVITY_EARTH;
             float gZ = event.values[2] / SensorManager.GRAVITY_EARTH;
 
-            // calculamos el módulo de la fuerza generada
-            // cuando no haya movimiento gForce estará próxima a 1
+            // Si la fuerza está dentro de un umbral la reconocemos como shake
             double gForce = Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
-            // en caso de que el módulo de la fuerza sea mayor que el umbral mínimo establecido
-            // lo aceptaremos como una interacción válida, en caso conrtario, el dispositivo no
-            // hará nada.
             if (gForce >= SHAKE_THRESHOLD) {
 
                 Toast.makeText(getBaseContext(), "Uhusahd", Toast.LENGTH_SHORT);
@@ -99,6 +94,9 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
         Bundle extra = getIntent().getExtras();
         raw=extra.getString("raw");
 
+
+        // Leemos la info del intent y la separamos
+
         String[] parts = raw.split("###");
 
         super.onCreate(savedInstanceState);
@@ -110,6 +108,8 @@ public class QRinfo extends AppCompatActivity implements SensorEventListener {
         imagen = findViewById(R.id.imageView);
 
         nombre.setText(parts[0]);
+
+        // Con picasso cargamos la imagen en el view
         Picasso.get().load(parts[1]).into(imagen);
         texto.setText(parts[2]);
 

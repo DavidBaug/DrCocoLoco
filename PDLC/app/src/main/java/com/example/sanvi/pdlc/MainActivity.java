@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+
+    // Actividad principal -> fragment dialog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+
+    // Método que lanza el fragment seleccionado
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

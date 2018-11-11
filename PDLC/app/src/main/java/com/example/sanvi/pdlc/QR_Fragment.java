@@ -27,11 +27,14 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
 
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 0);
 
+        //Instancia lector qr
 
         mScannerView = new ZXingScannerView(getActivity());
 
         Toast.makeText(getContext(),"Toca dos veces para activar el flash", Toast.LENGTH_SHORT).show();
 
+
+        // Aniadido método para activar linterna
         mScannerView.setOnTouchListener(new OnDoubleTapListener(getContext()) {
             @Override
             public void onDoubleTap(MotionEvent e) {
@@ -47,6 +50,7 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
 
 
 
+    // Enciende la cámara
     @Override
     public void onResume() {
         super.onResume();
@@ -57,12 +61,14 @@ public class QR_Fragment extends Fragment implements ZXingScannerView.ResultHand
     }
 
 
+    // Para la cámara
     @Override
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();
     }
 
+    // Lee info del qr y la pasa a una nueva actividad
     @Override
     public void handleResult(com.google.zxing.Result rawResult) {
 //        Toast.makeText(getActivity(), rawResult.getText(), Toast.LENGTH_SHORT).show();
